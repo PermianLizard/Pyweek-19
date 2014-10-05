@@ -4,9 +4,13 @@ include README.txt
 include TODO.txt
 include LICENSE.txt
 include CHANGES.txt
+include DungeonSquabble/scenes.py
 include DungeonSquabble/data.py
+include DungeonSquabble/layers.py
 include DungeonSquabble/__init__.py
 include DungeonSquabble/__main__.py
+include DungeonSquabble/consts.py
+include DungeonSquabble/game.py
 include pyweek_upload.py
 include run_game.py
 include setup.py

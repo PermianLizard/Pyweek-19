@@ -7,15 +7,19 @@ class Quit(Exception):
     pass
 
 
-def run(scene, screen_size=(800, 600), display_size=(800, 600), fps=30):
+def run(scene, screen_size=(800, 600), display_size=(800, 600), fps=30, on_init=None):
     pygame.init()
 
     display = pygame.display.set_mode(screen_size)
     screen = pygame.Surface(display_size).convert()
 
     clock = pygame.time.Clock()
+    ticks = 0
 
     director.push(scene)
+
+    if on_init:
+        on_init()
 
     while True:
         top = director.top()
@@ -37,8 +41,10 @@ def run(scene, screen_size=(800, 600), display_size=(800, 600), fps=30):
                 elif event.type == pygame.MOUSEBUTTONUP:
                     top.on_mouse_button_up(event.pos, event.button)
 
-            top.update(0)
-            top.draw(screen)
+            real_fps = clock.get_fps()
+
+            top.update(fps=real_fps)
+            top.draw(screen, fps=real_fps)
 
         except Quit:
             break

@@ -1,3 +1,6 @@
+import color
+
+
 class SceneLayer(object):
     def __init__(self):
         self.scene = None
@@ -14,10 +17,10 @@ class SceneLayer(object):
     def resume(self, **kwargs):
         pass
 
-    def update(self, dt):
+    def update(self, **kwargs):
         pass
 
-    def draw(self, surf):
+    def draw(self, surf, **kwargs):
         pass
 
     def on_key_down(self, key, mod):
@@ -36,8 +39,9 @@ class SceneLayer(object):
         pass
 
 class Scene(object):
-    def __init__(self, layers=[]):
+    def __init__(self, layers=[], bg_color=color.BLACK):
         self.layers = layers[:]
+        self.bg_color = bg_color
 
     def enter(self, **kwargs):
         print '%s: enter' % self.__class__.__name__
@@ -59,13 +63,14 @@ class Scene(object):
         for layer in self.layers:
             layer.resume(**kwargs)
 
-    def update(self, dt):
+    def update(self, **kwargs):
         for layer in self.layers:
-            layer.update(dt)
+            layer.update(**kwargs)
 
-    def draw(self, surf):
+    def draw(self, surf, **kwargs):
+        surf.fill(self.bg_color)
         for layer in self.layers:
-            layer.draw(surf)
+            layer.draw(surf, **kwargs)
 
     def on_key_down(self, key, mod):
         for layer in self.layers:
