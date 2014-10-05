@@ -1,8 +1,6 @@
 import pygame
-
 from core import director
 from core.scene import Scene
-
 import game
 import layers
 
@@ -10,7 +8,7 @@ import layers
 class GameScene(Scene):
     def __init__(self):
         super(GameScene, self).__init__(
-            layers=[layers.GameLayer()])
+            layers=[layers.DebugLayer(), layers.GameLayer()])
 
     def enter(self, **kwargs):
         super(GameScene, self).enter(**kwargs)
