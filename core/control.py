@@ -26,6 +26,16 @@ def run(scene, display_size=(800, 600), display_resolution=(800, 600), fps=30):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     raise Quit()
+                elif event.type == pygame.KEYDOWN:
+                    top.on_key_down(event.key, event.mod)
+                elif event.type == pygame.KEYUP:
+                    top.on_key_up(event.key, event.mod)
+                elif event.type == pygame.MOUSEMOTION:
+                    top.on_mouse_motion(event.pos, event.rel, event.buttons)
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    top.on_mouse_button_down(event.pos, event.button)
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    top.on_mouse_button_up(event.pos, event.button)
 
             top.update(0)
             top.draw(screen)

@@ -1,3 +1,3 @@
-from scene import Director
+from scene import SceneDirector
 
-director = Director()
+director = SceneDirector()

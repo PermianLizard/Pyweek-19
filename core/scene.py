@@ -20,23 +20,23 @@ class Scene(object):
     def draw(self, surf):
         pass
 
-    def on_key_down(key, mod):
+    def on_key_down(self, key, mod):
         pass
 
-    def on_key_up(key, mod):
+    def on_key_up(self, key, mod):
         pass
 
-    def on_mouse_motion(pos, rel, buttons):
+    def on_mouse_motion(self, pos, rel, buttons):
         pass
 
-    def on_mouse_button_down(pos, button):
+    def on_mouse_button_down(self, pos, button):
         pass
 
-    def on_mouse_button_up(pos, button):
+    def on_mouse_button_up(self, pos, button):
         pass
 
 
-class Director(object):
+class SceneDirector(object):
     def __init__(self):
         self.stack = []
 
