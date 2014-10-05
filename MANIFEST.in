@@ -10,6 +10,8 @@ include DungeonSquabble/layers.py
 include DungeonSquabble/__init__.py
 include DungeonSquabble/__main__.py
 include DungeonSquabble/consts.py
+include DungeonSquabble/text.py
+include DungeonSquabble/resources.py
 include DungeonSquabble/game.py
 include pyweek_upload.py
 include run_game.py

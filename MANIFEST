@@ -10,5 +10,11 @@ run_game.py
 setup.py
 DungeonSquabble/__init__.py
 DungeonSquabble/__main__.py
+DungeonSquabble/consts.py
 DungeonSquabble/data.py
+DungeonSquabble/game.py
+DungeonSquabble/layers.py
+DungeonSquabble/resources.py
+DungeonSquabble/scenes.py
+DungeonSquabble/text.py
 scripts/DungeonSquabble

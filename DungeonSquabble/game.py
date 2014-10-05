@@ -10,13 +10,17 @@ class GameInstance(object):
 
 
 class GameInstanceState(object):
-    def __init__(self):
+    def __init__(self, levels):
         self.current_level = 0
-        self.levels = []
+        self.levels = levels[:]
+
+    def get_current_level(self):
+        return self.levels[self.current_level]
 
 
 class Map:
     def __init__(self, data):
+        self.size = len(data[0]), len(data)
         self.data = data
 
     def console_print(self):
@@ -50,15 +54,18 @@ instance = None
 
 
 def new():
-    state = GameInstanceState()
+    levels = []
+    levels.append(gen_level((10, 10)))
+
+    state = GameInstanceState(levels)
 
     global instance
     instance = GameInstance(state)
 
 
 def gen_level(size):
-    level = Level(None)
-
+    map = gen_map(size)
+    level = Level(map)
     return level
 
 

@@ -24,19 +24,20 @@ class SceneLayer(object):
         pass
 
     def on_key_down(self, key, mod):
-        pass
+        return False
 
     def on_key_up(self, key, mod):
-        pass
+        return False
 
     def on_mouse_motion(self, pos, rel, buttons):
-        pass
+        return False
 
     def on_mouse_button_down(self, pos, button):
-        pass
+        return False
 
     def on_mouse_button_up(self, pos, button):
-        pass
+        return False
+
 
 class Scene(object):
     def __init__(self, layers=[], bg_color=color.BLACK):
@@ -69,28 +70,33 @@ class Scene(object):
 
     def draw(self, surf, **kwargs):
         surf.fill(self.bg_color)
-        for layer in self.layers:
+        for layer in reversed(self.layers):
             layer.draw(surf, **kwargs)
 
     def on_key_down(self, key, mod):
         for layer in self.layers:
-            layer.on_key_down(key, mod)
+            if layer.on_key_down(key, mod):
+                break
 
     def on_key_up(self, key, mod):
         for layer in self.layers:
-            layer.on_key_up(key, mod)
+            if layer.on_key_up(key, mod):
+                break
 
     def on_mouse_motion(self, pos, rel, buttons):
         for layer in self.layers:
-            layer.on_mouse_motion(pos, rel, buttons)
+            if layer.on_mouse_motion(pos, rel, buttons):
+                break
 
     def on_mouse_button_down(self, pos, button):
         for layer in self.layers:
-            layer.on_mouse_button_down(pos, button)
+            if layer.on_mouse_button_down(pos, button):
+                break
 
     def on_mouse_button_up(self, pos, button):
         for layer in self.layers:
-            layer.on_mouse_button_up(pos, button)
+            if layer.on_mouse_button_up(pos, button):
+                break
 
 
 class SceneDirector(object):
