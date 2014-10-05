@@ -1,0 +1,12 @@
+include BUGS.txt
+include android.txt
+include README.txt
+include TODO.txt
+include LICENSE.txt
+include CHANGES.txt
+include DungeonSquabble/data.py
+include DungeonSquabble/__init__.py
+include DungeonSquabble/__main__.py
+include pyweek_upload.py
+include run_game.py
+include setup.py
