@@ -9,7 +9,7 @@ class Scene(object):
         print '%s: exit' % self.__class__.__name__
 
     def pause(self):
-        print '%s: pause' K% self.__class__.__name__
+        print '%s: pause' % self.__class__.__name__
 
     def resume(self, **kwargs):
         print '%s: resume' % self.__class__.__name__
