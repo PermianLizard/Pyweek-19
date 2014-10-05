@@ -23,6 +23,9 @@ class Map:
         self.size = len(data[0]), len(data)
         self.data = data
 
+    def get_tile(self, x, y):
+        return self.data[y][x]
+
     def console_print(self):
         for row in self.data:
             print [str(tile) for tile in row]
@@ -75,6 +78,8 @@ def gen_map(size):
         for x in xrange(size[0]):
             row.append(Tile(tile_type_wall))
         data.append(row)
+
+    data[1][1] = Tile(tile_type_floor)
 
     return Map(data)
 

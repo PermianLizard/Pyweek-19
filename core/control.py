@@ -7,19 +7,20 @@ class Quit(Exception):
     pass
 
 
-def run(scene, screen_size=(800, 600), display_size=(800, 600), fps=30, on_init=None):
+def run(scene, title, screen_size=(800, 600), display_size=(800, 600), fps=30, on_init=None):
     pygame.init()
 
+    pygame.display.set_caption(title)
     display = pygame.display.set_mode(screen_size)
     screen = pygame.Surface(display_size).convert()
 
     clock = pygame.time.Clock()
     ticks = 0
 
-    director.push(scene)
-
     if on_init:
         on_init()
+
+    director.push(scene)
 
     while True:
         top = director.top()
