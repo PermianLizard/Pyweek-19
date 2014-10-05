@@ -1,5 +1,3 @@
-/dist
-/.idea
-/.idea/scopes/**
-/.idea/**
+dist/
+.idea/
 *.pyc
