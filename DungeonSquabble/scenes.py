@@ -11,8 +11,8 @@ class GameScene(Scene):
             layers=[layers.DebugLayer(), layers.GameLayer()])
 
     def enter(self, **kwargs):
-        super(GameScene, self).enter(**kwargs)
         game.new()
+        super(GameScene, self).enter(**kwargs)
 
     def on_key_down(self, key, mod):
         if key == pygame.K_ESCAPE:

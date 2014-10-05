@@ -42,9 +42,10 @@ def run(scene, screen_size=(800, 600), display_size=(800, 600), fps=30, on_init=
                     top.on_mouse_button_up(event.pos, event.button)
 
             real_fps = clock.get_fps()
+            keys = pygame.key.get_pressed()
 
-            top.update(fps=real_fps)
-            top.draw(screen, fps=real_fps)
+            top.update(fps=real_fps, keys=keys)
+            top.draw(screen, fps=real_fps, keys=keys)
 
         except Quit:
             break
