@@ -42,6 +42,9 @@ class SceneLayer(object):
 class Scene(object):
     def __init__(self, layers=[], bg_color=color.BLACK):
         self.layers = layers[:]
+        for layer in self.layers:
+            layer.scene = self
+
         self.bg_color = bg_color
 
     def enter(self, **kwargs):

@@ -54,8 +54,7 @@ instance = None
 
 
 def new():
-    levels = []
-    levels.append(gen_level((10, 10)))
+    levels = [gen_level((50, 50))]
 
     state = GameInstanceState(levels)
 

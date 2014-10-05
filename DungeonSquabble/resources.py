@@ -21,6 +21,7 @@ def init():
 
 
 font_cache = None
-font__press_start_normal = 'PressStart2P.ttf', 12
+font__press_start_normal = 'PressStart2P.ttf', 8
+
 fonts = font__press_start_normal,
 

@@ -6,26 +6,17 @@ from core.camera import Camera
 import game
 import resources
 import text
+import render
 
 from consts import DISPLAY_SIZE, TILE_SIZE, HALF_TILE_SIZE, DEBUG
 from resources import font__press_start_normal
 
 
 class GameLayer(SceneLayer):
-    def draw(self, surf, **kwargs):
-        game_instance = game.instance
-
-        level = game_instance.state.get_current_level()
-        map = level.map
-
-        camera = self.camera
-
-        for y in xrange(map.size[1]):
-            for x in xrange(map.size[0]):
-                pygame.draw.rect(surf, color.RED, (x * TILE_SIZE - camera.pos[0],
-                                                   y * TILE_SIZE - camera.pos[1],
-                                                   TILE_SIZE - 1,
-                                                   TILE_SIZE - 1))
+    def __init__(self):
+        super(GameLayer, self).__init__()
+        self.camera = None
+        self.map_surf = None
 
     def enter(self, **kwargs):
         game_instance = game.instance
@@ -38,6 +29,10 @@ class GameLayer(SceneLayer):
         camera_limits.inflate_ip(DISPLAY_SIZE[0] // 2, DISPLAY_SIZE[1] // 2)
 
         self.camera = Camera(DISPLAY_SIZE, pos=(0, 0), pan_speed=HALF_TILE_SIZE, limits=camera_limits)
+
+        map_surf = render.create_level_surf(level)
+        render.render_level_map(map_surf, level)
+        self.map_surf = map_surf
 
     def update(self, **kwargs):
         keys = kwargs['keys']
@@ -53,6 +48,16 @@ class GameLayer(SceneLayer):
             scroll_dir[1] = 1
 
         self.camera.pan(scroll_dir)
+
+    def draw(self, surf, **kwargs):
+        game_instance = game.instance
+
+        level = game_instance.state.get_current_level()
+        map = level.map
+
+        camera = self.camera
+
+        surf.blit(self.map_surf, (0, 0, camera.view.width, camera.view.height), camera.view)
 
     def on_mouse_button_down(self, pos, button):
         print 'click'

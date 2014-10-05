@@ -1,4 +1,4 @@
 title=DungeonSquabble
-author=yourgameauthor
+author=martinbalmaceda
 api=1
 orientation=landscape
