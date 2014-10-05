@@ -48,5 +48,8 @@ def run(scene, display_size=(800, 600), display_resolution=(800, 600), fps=30):
 
         clock.tick(fps)
 
+    while director.top():
+        director.pop()
+
     pygame.mixer.music.stop()
     pygame.quit()
