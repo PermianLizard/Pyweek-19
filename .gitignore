@@ -1,3 +1,5 @@
 /dist
 /.idea
+/.idea/scopes/**
+/.idea/**
 *.pyc
