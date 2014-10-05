@@ -7,11 +7,11 @@ class Quit(Exception):
     pass
 
 
-def run(scene, display_size=(800, 600), display_resolution=(800, 600), fps=30):
+def run(scene, screen_size=(800, 600), display_size=(800, 600), fps=30):
     pygame.init()
 
-    display = pygame.display.set_mode(display_size)
-    screen = pygame.Surface(display_resolution).convert()
+    display = pygame.display.set_mode(screen_size)
+    screen = pygame.Surface(display_size).convert()
 
     clock = pygame.time.Clock()
 
@@ -43,7 +43,7 @@ def run(scene, display_size=(800, 600), display_resolution=(800, 600), fps=30):
         except Quit:
             break
 
-        pygame.transform.scale(screen, display_size, display)
+        pygame.transform.scale(screen, screen_size, display)
         pygame.display.update()
 
         clock.tick(fps)

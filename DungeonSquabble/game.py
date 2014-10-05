@@ -1,35 +1,3 @@
-class TileType:
-    def __init__(self, name, char):
-        self.name = name
-        self.char = char
-
-
-class Tile(object):
-    def __init__(self, type):
-        self.type = type
-
-    def __str__(self):
-        return self.type.char
-
-
-class Map:
-    def __init__(self, data):
-        self.data = data
-
-    def console_print(self):
-        for row in self.data:
-            print [str(tile) for tile in row]
-
-
-class Level:
-    def __init__(self, map):
-        self.map = map
-
-
-class GameInstanceState(object):
-    pass
-
-
 class GameInstance(object):
     def __init__(self, state):
         self.state = state
@@ -41,8 +9,42 @@ class GameInstance(object):
             o.notify(name, *args, **kwargs)
 
 
-TILE_TYPE_WALL = TileType('wall', '#')
-TILE_TYPE_FLOOR = TileType('floor', ' ')
+class GameInstanceState(object):
+    def __init__(self):
+        self.current_level = 0
+        self.levels = []
+
+
+class Map:
+    def __init__(self, data):
+        self.data = data
+
+    def console_print(self):
+        for row in self.data:
+            print [str(tile) for tile in row]
+
+
+class Tile(object):
+    def __init__(self, type):
+        self.type = type
+
+    def __str__(self):
+        return self.type.char
+
+
+class TileType:
+    def __init__(self, name, char):
+        self.name = name
+        self.char = char
+
+
+class Level:
+    def __init__(self, map):
+        self.map = map
+
+
+tile_type_wall = TileType('wall', '#')
+tile_type_floor = TileType('floor', ' ')
 
 instance = None
 
@@ -65,7 +67,7 @@ def gen_map(size):
     for y in xrange(size[1]):
         row = []
         for x in xrange(size[0]):
-            row.append(Tile(TILE_TYPE_WALL))
+            row.append(Tile(tile_type_wall))
         data.append(row)
 
     return Map(data)
