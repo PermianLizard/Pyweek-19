@@ -1,10 +1,10 @@
 Your Game Title
 ===============
 
-Entry in PyWeek #12  <http://www.pyweek.org/12/>
+Entry in PyWeek #19  <https://pyweek.org/19/>
 URL: https://pyweek.org/e/Silurian/
-Team: YOUR TEAM NAME (leave the "Team: bit")
-Members: YOUR TEAM MEMBERS (leave the "Members: bit")
+Team:
+Members: Martin Balmaceda
 License: see LICENSE.txt
 
 

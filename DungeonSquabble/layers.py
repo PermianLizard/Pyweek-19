@@ -72,5 +72,5 @@ class DebugLayer(SceneLayer):
             text.draw(surf, 'FPS: %s' % fps,
                       font__press_start_normal,
                       (10, surf_size[1] - 5),
-                      color.GRAY,
+                      color.WHITE,
                       halign='left', valign='bottom')

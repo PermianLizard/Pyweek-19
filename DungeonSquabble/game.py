@@ -1,3 +1,6 @@
+import levelgen
+
+
 class GameInstance(object):
     def __init__(self, state):
         self.state = state
@@ -66,7 +69,15 @@ def new():
 
 
 def gen_level(size):
-    map = gen_map(size)
+    data = levelgen.generate((60, 60))
+    for y in xrange(60):
+        for x in xrange(60):
+            if data[y][x]:
+                data[y][x] = Tile(tile_type_floor)
+            else:
+                data[y][x] = Tile(tile_type_wall)
+
+    map = Map(data)
     level = Level(map)
     return level
 
