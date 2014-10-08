@@ -26,13 +26,28 @@ class Map:
     def __init__(self, data):
         self.size = len(data[0]), len(data)
         self.data = data
+        self.passability_data = self._gen_passability_data()
 
     def get_tile(self, x, y):
         return self.data[y][x]
 
+    def get_passable(self, x, y):
+        return self.passability_data[y][x]
+
     def console_print(self):
         for row in self.data:
             print [str(tile) for tile in row]
+
+    def _gen_passability_data(self):
+        passability_data = []
+        data = self.data
+        for y in xrange(len(data)):
+            row = []
+            for x in xrange(len(data[y])):
+                row.append(data[y][x].passable)
+            passability_data.append(row)
+
+        return passability_data
 
 
 class Tile(object):
@@ -55,9 +70,10 @@ class TileType:
 
 
 class Level:
-    def __init__(self, map, rooms):
+    def __init__(self, map, rooms, beings):
         self.map = map
         self.rooms = rooms
+        self.beings = beings
 
         self.init()
 
@@ -109,7 +125,12 @@ def gen_level(size):
     for room_area in gen_info.room_areas:
         rooms.append(entity.Room(room_area))
 
-    level = Level(map, rooms)
+    first_room = rooms[0]
+
+    beings = []
+    beings.append(entity.Being(first_room.area.center))
+
+    level = Level(map, rooms, beings)
     return level
 
 

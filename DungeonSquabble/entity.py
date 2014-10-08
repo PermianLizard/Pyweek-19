@@ -9,3 +9,8 @@ class Room(object):
     @property
     def padded_area(self):
         return self.area.inflate(2, 2)
+
+
+class Being(object):
+    def __init__(self, pos=(0, 0)):
+        self.pos = pos

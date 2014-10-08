@@ -1,12 +1,14 @@
 import pygame
 import operator
 from core import color
+from core import pathing
 from core.scene import SceneLayer
 from core.camera import Camera
 import game
 import resources
 import text
 import render
+import util
 
 from consts import DISPLAY_SIZE, TILE_SIZE, HALF_TILE_SIZE, DEBUG
 from resources import font__press_start_normal
@@ -51,16 +53,29 @@ class GameLayer(SceneLayer):
 
     def draw(self, surf, **kwargs):
         game_instance = game.instance
+        level = game_instance.state.get_current_level()
 
+        camera = self.camera
+
+        surf.blit(self.map_surf, (0, 0, camera.view.width, camera.view.height), camera.view)
+        render.render_level_rooms(surf, level, self.camera)
+        render.render_level_beings(surf, level, self.camera)
+
+    def on_mouse_button_down(self, pos, button):
+        game_instance = game.instance
         level = game_instance.state.get_current_level()
         map = level.map
 
         camera = self.camera
 
-        surf.blit(self.map_surf, (0, 0, camera.view.width, camera.view.height), camera.view)
+        being = level.beings[0]
 
-    def on_mouse_button_down(self, pos, button):
-        print 'click'
+        being_tile = being.pos
+        click_tile = util.pixel_to_tile(pos, camera.view.topleft) #camera.view.topleft
+
+        if map.get_passable(click_tile[0], click_tile[1]):
+            path = pathing.astar(being_tile, click_tile, level.map.passability_data)
+
         return False
 
 
