@@ -3,6 +3,12 @@ import pygame
 import util
 
 
+class GenInfo:
+    def __init__(self, passability_map, room_areas):
+        self.passability_map = passability_map
+        self.room_areas = room_areas
+
+
 class BspNode(object):
     def __init__(self, area, parent=None):
         self.area = area
@@ -138,7 +144,7 @@ class BspNode(object):
         leaf_padded_rooms = {}
         for leaf in leaves:
             if leaf.room_area:
-                leaf_padded_rooms[leaf] = leaf.room_area.inflate(1, 1)
+                leaf_padded_rooms[leaf] = leaf.room_area.inflate(2, 2)
 
         for leaf in leaves:
             to_remove = set()
@@ -186,24 +192,34 @@ class BspNode(object):
             coll.append(self)
         return coll
 
+    def collect_rooms(self, coll=None):
+        if coll is None:
+            coll = []
+        if self.left_child is not None:
+            self.left_child.collect_rooms(coll)
+        if self.right_child is not None:
+            self.right_child.collect_rooms(coll)
+        if self.is_leaf() and self.room_area is not None:
+            coll.append(self.room_area)
+        return coll
 
-def generate(size, min_node_area=12, room_cull=0.5, max_room_connect_distance=20, room_connect_chance=0.75):
+
+def generate(size, min_node_area=12, room_cull=0.4, room_connect_chance=0.75):
     root = BspNode(pygame.Rect((0, 0) + size))
     root.grow(min_node_area)
 
     rooms = root.make_rooms()
     root.cull_rooms(int(len(rooms) * room_cull))
 
+    max_room_connect_distance = min_node_area * 2
+
     root.connect_rooms(max_room_connect_distance, room_connect_chance)
     root.clean_crappy_connections()
 
-    return root.get_data()
+    passability_map = root.get_data()
+    room_areas = root.collect_rooms()
 
-
-def imprint_matrix(data, area, value):
-    for y in xrange(area.top, area.bottom):
-        for x in xrange(area.left, area.right):
-            data[y][x] = value
+    return GenInfo(passability_map, room_areas)
 
 
 def imprint_horiz(data, x1, x2, y, value):
@@ -221,6 +237,12 @@ def imprint_vert(data, y1, y2, x, value):
 def imprint_path(data, path, value):
     for x, y in path:
         data[y][x] = value
+
+
+def imprint_matrix(data, area, value):
+    for y in xrange(area.top, area.bottom):
+        for x in xrange(area.left, area.right):
+            data[y][x] = value
 
 
 def get_path(a_area, b_area):

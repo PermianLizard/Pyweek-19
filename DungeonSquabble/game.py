@@ -1,4 +1,5 @@
 import levelgen
+import entity
 
 
 class GameInstance(object):
@@ -38,47 +39,77 @@ class Tile(object):
     def __init__(self, type):
         self.type = type
 
+    @property
+    def passable(self):
+        return self.type.passable
+
     def __str__(self):
         return self.type.char
 
 
 class TileType:
-    def __init__(self, name, char):
+    def __init__(self, name, char, passable):
         self.name = name
         self.char = char
+        self.passable = passable
 
 
 class Level:
-    def __init__(self, map):
+    def __init__(self, map, rooms):
         self.map = map
+        self.rooms = rooms
+
+        self.init()
+
+    def init(self):
+        map = self.map
+
+        for room in self.rooms:
+            room.level = self
+
+            room_padded_area = room.padded_area
+            room_entrances = set()
+            for x in xrange(room_padded_area.left, room_padded_area.right):
+                y = room_padded_area.top
+                if map.get_tile(x, y).passable:
+                    room_entrances.add((x, y))
+
+                y = room_padded_area.bottom - 1
+                if map.get_tile(x, y).passable:
+                    room_entrances.add((x, y))
+
+            for y in xrange(room_padded_area.top, room_padded_area.bottom):
+                x = room_padded_area.left
+                if map.get_tile(x, y).passable:
+                    room_entrances.add((x, y))
+
+                x = room_padded_area.right - 1
+                if map.get_tile(x, y).passable:
+                    room_entrances.add((x, y))
+
+            room.entry_points = list(room_entrances)
 
 
-tile_type_wall = TileType('wall', '#')
-tile_type_floor = TileType('floor', ' ')
-
-instance = None
-
-
-def new():
-    levels = [gen_level((50, 50))]
-
-    state = GameInstanceState(levels)
-
-    global instance
-    instance = GameInstance(state)
-
+tile_type_wall = TileType('wall', '#', False)
+tile_type_floor = TileType('floor', ' ', True)
 
 def gen_level(size):
-    data = levelgen.generate((60, 60))
+    gen_info = levelgen.generate((60, 60))
+
+    map_data = gen_info.passability_map
     for y in xrange(60):
         for x in xrange(60):
-            if data[y][x]:
-                data[y][x] = Tile(tile_type_floor)
+            if map_data[y][x]:
+                map_data[y][x] = Tile(tile_type_floor)
             else:
-                data[y][x] = Tile(tile_type_wall)
+                map_data[y][x] = Tile(tile_type_wall)
+    map = Map(map_data)
 
-    map = Map(data)
-    level = Level(map)
+    rooms = []
+    for room_area in gen_info.room_areas:
+        rooms.append(entity.Room(room_area))
+
+    level = Level(map, rooms)
     return level
 
 
@@ -95,6 +126,15 @@ def gen_map(size):
     return Map(data)
 
 
-if __name__ == '__main__':
-    m = gen_map((5, 5))
-    m.console_print()
+instance = None
+
+
+def new():
+    levels = [gen_level((50, 50))]
+
+    state = GameInstanceState(levels)
+
+    global instance
+    instance = GameInstance(state)
+
+

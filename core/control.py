@@ -15,7 +15,6 @@ def run(scene, title, screen_size=(800, 600), display_size=(800, 600), fps=30, o
     screen = pygame.Surface(display_size).convert()
 
     clock = pygame.time.Clock()
-    ticks = 0
 
     if on_init:
         on_init()

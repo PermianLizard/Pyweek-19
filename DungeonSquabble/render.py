@@ -20,6 +20,16 @@ def render_level_map(surf, level):
         for x in xrange(map.size[0]):
             render_map_tile(surf, level, (x, y))
 
+    for room in level.rooms:
+        area = room.area
+        pygame.draw.rect(surf, color.RED, (area.left * TILE_SIZE,
+                                           area.top * TILE_SIZE,
+                                           area.width * TILE_SIZE,
+                                           area.height * TILE_SIZE))
+
+        for x, y in room.entry_points:
+            pygame.draw.rect(surf, color.BLUE, (x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE))
+
 
 def render_map_tile(surf, level, tile):
     map = level.map
