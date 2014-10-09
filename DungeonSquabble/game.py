@@ -28,7 +28,7 @@ instance = None
 
 
 def new():
-    levels = [gameobj.gen_level((100, 100))]
+    levels = [gameobj.gen_level((40, 40))]
 
     state = GameInstanceState(levels)
 
