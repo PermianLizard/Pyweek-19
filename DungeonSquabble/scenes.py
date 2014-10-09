@@ -19,6 +19,7 @@ class GameScene(Scene):
             director.pop()
 
     def update(self, **kwargs):
+        super(GameScene, self).update(**kwargs)
         instance = game.instance
         instance.update(**kwargs)
 

@@ -3,6 +3,7 @@ from core import color
 from consts import DISPLAY_SIZE, TILE_SIZE, HALF_TILE_SIZE
 import resources
 import game
+import gameobj
 
 
 def create_level_surf(level):
@@ -23,8 +24,10 @@ def render_being(surf, being, camera):
     pos = being.pos
     cx, cy = camera.view.topleft
 
+    rect = (pos[0] * TILE_SIZE + HALF_TILE_SIZE - cx, pos[1] * TILE_SIZE + HALF_TILE_SIZE - cy)
+
     pygame.draw.circle(surf, color.GREEN,
-                       (pos[0] * TILE_SIZE + HALF_TILE_SIZE - cx, pos[1] * TILE_SIZE + HALF_TILE_SIZE - cy),
+                       rect,
                        HALF_TILE_SIZE - 1)
 
 
@@ -37,13 +40,19 @@ def render_room(surf, room, camera):
     area = room.area
     cx, cy = camera.view.topleft
 
-    pygame.draw.rect(surf, color.RED, (area.left * TILE_SIZE - cx,
-                                       area.top * TILE_SIZE - cy,
-                                       area.width * TILE_SIZE,
-                                       area.height * TILE_SIZE))
+    rect = (area.left * TILE_SIZE,
+            area.top * TILE_SIZE,
+            area.width * TILE_SIZE,
+            area.height * TILE_SIZE)
+
+    if not camera.view.colliderect(rect):
+        return
+
+    pygame.draw.rect(surf, color.RED, (rect[0] - cx, rect[1] - cy, rect[2], rect[3]))
 
     for x, y in room.entry_points:
-        pygame.draw.rect(surf, color.BLUE, (x * TILE_SIZE - cx, y * TILE_SIZE - cy, TILE_SIZE, TILE_SIZE))
+        rect = (x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+        pygame.draw.rect(surf, color.BLUE, (rect[0] - cx, rect[1] - cy, rect[2], rect[3]))
 
 
 def render_level_map(surf, level, camera=None):
@@ -58,5 +67,5 @@ def render_map_tile(surf, level, tile):
 
     x, y = tile
 
-    if (map.get_tile(x, y).type == game.tile_type_wall):
+    if (map.get_tile(x, y).type == gameobj.tile_type_wall):
         pygame.draw.rect(surf, color.GRAY, (x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE - 1, TILE_SIZE - 1))

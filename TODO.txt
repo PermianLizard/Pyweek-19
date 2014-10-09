@@ -9,3 +9,4 @@ being selection
 concept of players
     player colors
 unit movement
+entity/being class hierarchy

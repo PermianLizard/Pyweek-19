@@ -1,0 +1,137 @@
+import levelgen
+import entity
+
+
+class Level:
+    def __init__(self, map, rooms, beings):
+        self.map = map
+        self.rooms = []
+        self.beings = []
+
+        for room in rooms:
+            self.add_room(room)
+
+        for being in beings:
+            self.add_being(being)
+
+        self.init()
+
+    def init(self):
+        map = self.map
+
+        for room in self.rooms:
+            room.level = self
+
+            room_padded_area = room.padded_area
+            room_entrances = set()
+            for x in xrange(room_padded_area.left, room_padded_area.right):
+                y = room_padded_area.top
+                if map.get_tile(x, y).passable:
+                    room_entrances.add((x, y))
+
+                y = room_padded_area.bottom - 1
+                if map.get_tile(x, y).passable:
+                    room_entrances.add((x, y))
+
+            for y in xrange(room_padded_area.top, room_padded_area.bottom):
+                x = room_padded_area.left
+                if map.get_tile(x, y).passable:
+                    room_entrances.add((x, y))
+
+                x = room_padded_area.right - 1
+                if map.get_tile(x, y).passable:
+                    room_entrances.add((x, y))
+
+            room.entry_points = list(room_entrances)
+
+    def update(self):
+        for room in self.rooms:
+            room.update()
+
+        for being in self.beings:
+            being.update()
+
+    def add_room(self, room):
+        self.rooms.append(room)
+        room.level = self
+
+    def add_being(self, being):
+        self.beings.append(being)
+        being.level = self
+
+
+class Map:
+    def __init__(self, data):
+        self.size = len(data[0]), len(data)
+        self.data = data
+        self.passability_data = self._gen_passability_data()
+
+    def get_tile(self, x, y):
+        return self.data[y][x]
+
+    def get_passable(self, x, y):
+        return self.passability_data[y][x]
+
+    def console_print(self):
+        for row in self.data:
+            print [str(tile) for tile in row]
+
+    def _gen_passability_data(self):
+        passability_data = []
+        data = self.data
+        for y in xrange(len(data)):
+            row = []
+            for x in xrange(len(data[y])):
+                row.append(data[y][x].passable)
+            passability_data.append(row)
+
+        return passability_data
+
+
+class Tile(object):
+    def __init__(self, type):
+        self.type = type
+
+    @property
+    def passable(self):
+        return self.type.passable
+
+    def __str__(self):
+        return self.type.char
+
+
+class TileType:
+    def __init__(self, name, char, passable):
+        self.name = name
+        self.char = char
+        self.passable = passable
+
+
+tile_type_wall = TileType('wall', '#', False)
+tile_type_floor = TileType('floor', ' ', True)
+
+
+def gen_level(size):
+    width, height = size
+    gen_info = levelgen.generate(size)
+
+    map_data = gen_info.passability_map
+    for y in xrange(height):
+        for x in xrange(width):
+            if map_data[y][x]:
+                map_data[y][x] = Tile(tile_type_floor)
+            else:
+                map_data[y][x] = Tile(tile_type_wall)
+    map = Map(map_data)
+
+    rooms = []
+    for room_area in gen_info.room_areas:
+        rooms.append(entity.Room(room_area))
+
+    first_room = rooms[0]
+
+    beings = []
+    beings.append(entity.Being(first_room.area.center))
+
+    level = Level(map, rooms, beings)
+    return level

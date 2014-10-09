@@ -4,11 +4,13 @@ from core import color
 from core import pathing
 from core.scene import SceneLayer
 from core.camera import Camera
+from consts import MOUSE_BUTTON_RIGHT
 import game
 import resources
 import text
 import render
 import util
+import action
 
 from consts import DISPLAY_SIZE, TILE_SIZE, HALF_TILE_SIZE, DEBUG
 from resources import font__press_start_normal
@@ -48,7 +50,6 @@ class GameLayer(SceneLayer):
             scroll_dir[1] = -1
         if keys[pygame.K_DOWN]:
             scroll_dir[1] = 1
-
         self.camera.pan(scroll_dir)
 
     def draw(self, surf, **kwargs):
@@ -73,8 +74,14 @@ class GameLayer(SceneLayer):
         being_tile = being.pos
         click_tile = util.pixel_to_tile(pos, camera.view.topleft) #camera.view.topleft
 
-        if map.get_passable(click_tile[0], click_tile[1]):
-            path = pathing.astar(being_tile, click_tile, level.map.passability_data)
+        if button == MOUSE_BUTTON_RIGHT:
+            if map.get_passable(click_tile[0], click_tile[1]):
+                path = pathing.astar(being_tile, click_tile, level.map.passability_data)
+
+                move = action.MoveAction(path)
+                being.swap_action(move)
+
+            return True
 
         return False
 
