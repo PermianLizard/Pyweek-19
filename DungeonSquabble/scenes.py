@@ -18,6 +18,9 @@ class GameScene(Scene):
         if key == pygame.K_ESCAPE:
             director.pop()
 
+    def update(self, **kwargs):
+        instance = game.instance
+        instance.update(**kwargs)
 
 if __name__ == '__main__':
     from core import control

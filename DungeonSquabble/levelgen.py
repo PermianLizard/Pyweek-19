@@ -70,7 +70,7 @@ class BspNode(object):
         if coll is None:
             coll = []
         if self.is_leaf():
-            self.room_area = self.area.inflate(-2, -2)
+            self.room_area = self.area.inflate(-3, -3)
             coll.append(self.room_area)
         else:
             if self.left_child:

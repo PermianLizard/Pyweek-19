@@ -12,6 +12,9 @@ class GameInstance(object):
         for o in self.observers:
             o.notify(name, *args, **kwargs)
 
+    def update(self, **kwargs):
+        pass
+
 
 class GameInstanceState(object):
     def __init__(self, levels):
@@ -104,6 +107,9 @@ class Level:
                     room_entrances.add((x, y))
 
             room.entry_points = list(room_entrances)
+
+    def update(self):
+        pass
 
 
 tile_type_wall = TileType('wall', '#', False)
