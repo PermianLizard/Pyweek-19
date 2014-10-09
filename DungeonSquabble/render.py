@@ -26,7 +26,7 @@ def render_being(surf, being, camera):
 
     rect = (pos[0] * TILE_SIZE + HALF_TILE_SIZE - cx, pos[1] * TILE_SIZE + HALF_TILE_SIZE - cy)
 
-    pygame.draw.circle(surf, color.GREEN,
+    pygame.draw.circle(surf, being.owner.light_color,
                        rect,
                        HALF_TILE_SIZE - 1)
 
@@ -48,7 +48,7 @@ def render_room(surf, room, camera):
     if not camera.view.colliderect(rect):
         return
 
-    pygame.draw.rect(surf, color.RED, (rect[0] - cx, rect[1] - cy, rect[2], rect[3]))
+    pygame.draw.rect(surf, room.owner.dark_color, (rect[0] - cx, rect[1] - cy, rect[2], rect[3]))
 
     for x, y in room.entry_points:
         rect = (x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)

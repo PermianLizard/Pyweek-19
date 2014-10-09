@@ -1,16 +1,30 @@
 AQUA = (0, 255, 255)
 BLACK = (0, 0, 0)
-BLUE = (0, 0, 255)
+
+DARK_BLUE = (0, 0, 150)
+BLUE = (0, 0, 200)
+LIGHT_BLUE = (0, 0, 255)
+
 FUCHSIA = (255, 0, 255)
+
+DARK_GRAY = (80, 80, 80)
 GRAY = (128, 128, 128)
+SILVER = (192, 192, 192)
+
+DARK_GREEN = (0, 80, 0)
 GREEN = (0, 128, 0)
+LIGHT_GREEN = (0, 200, 0)
 LIME = (0, 255, 0)
+
 MARON = (128, 0, 0)
 NAVY_BLUE = (0, 0, 128)
 OLIVE = (128, 128, 0)
 PURPLE = (128, 0, 128)
-RED = (255, 0, 0)
-SILVER = (192, 192, 192)
+
+DARK_RED = (150, 0, 0)
+RED = (200, 0, 0)
+LIGHT_RED = (255, 0, 0)
+
 TEAL = (0, 128, 128)
 WHITE = (255, 255, 255)
 YELLOW = (255, 255, 0)

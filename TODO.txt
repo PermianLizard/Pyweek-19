@@ -3,10 +3,9 @@
 TODO
 ====
 
-being positions in pixel not tile coords?
 fov
 being selection
 concept of players
     player colors
 unit movement
-entity/being class hierarchy
+unit speed/turn to act

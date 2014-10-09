@@ -1,12 +1,18 @@
+from core import  color
 import levelgen
 import entity
+import player
 
 
 class Level:
-    def __init__(self, map, rooms, beings):
+    def __init__(self, map, players, rooms, beings):
         self.map = map
+        self.players = []
         self.rooms = []
         self.beings = []
+
+        for player in players:
+            self.add_player(player)
 
         for room in rooms:
             self.add_room(room)
@@ -50,6 +56,10 @@ class Level:
 
         for being in self.beings:
             being.update()
+
+    def add_player(self, player):
+        self.players.append(player)
+        player.level = self
 
     def add_room(self, room):
         self.rooms.append(room)
@@ -124,14 +134,18 @@ def gen_level(size):
                 map_data[y][x] = Tile(tile_type_wall)
     map = Map(map_data)
 
+    independent_player = player.Player((color.DARK_GRAY, color.GRAY, color.SILVER))
+    human_player = player.Player((color.DARK_RED, color.RED, color.LIGHT_RED))
+    players = [independent_player, human_player]
+
     rooms = []
     for room_area in gen_info.room_areas:
-        rooms.append(entity.Room(room_area))
+        rooms.append(entity.Room(room_area, independent_player))
 
     first_room = rooms[0]
 
     beings = []
-    beings.append(entity.Being(first_room.area.center))
+    beings.append(entity.Being(first_room.area.center, human_player))
 
-    level = Level(map, rooms, beings)
+    level = Level(map, players, rooms, beings)
     return level

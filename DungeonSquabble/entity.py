@@ -1,14 +1,15 @@
 class Entity(object):
-    def __init__(self):
+    def __init__(self, owner=None):
         self.level = None
+        self.owner = owner
 
     def update(self):
         pass
 
 
 class Room(Entity):
-    def __init__(self, area):
-        super(Room, self).__init__()
+    def __init__(self, area, owner=None):
+        super(Room, self).__init__(owner)
         self.area = area
         self.level = None
         self.entry_points = None
@@ -19,9 +20,10 @@ class Room(Entity):
 
 
 class Being(Entity):
-    def __init__(self, pos=(0, 0)):
-        super(Being, self).__init__()
+    def __init__(self, pos=(0, 0), owner=None):
+        super(Being, self).__init__(owner)
         self.pos = pos
+        self.owner = owner
         self.action_stack = []
 
     def top_action(self):
