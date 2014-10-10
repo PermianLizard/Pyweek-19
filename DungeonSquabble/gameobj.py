@@ -5,7 +5,7 @@ import player
 
 
 class Level:
-    def __init__(self, map, players, rooms, beings):
+    def __init__(self, map, players, rooms):
         self.map = map
         self.players = []
         self.rooms = []
@@ -14,42 +14,15 @@ class Level:
 
         for player in players:
             self._add_player(player)
-
         for room in rooms:
             self._add_room(room)
 
-        for being in beings:
-            self.add_being(being)
-
-        self.init()
-
     def init(self):
-        map = self.map
+        for player in self.players:
+            player.init()
 
         for room in self.rooms:
-            room.level = self
-
-            room_padded_area = room.padded_area
-            room_entrances = set()
-            for x in xrange(room_padded_area.left, room_padded_area.right):
-                y = room_padded_area.top
-                if map.get_tile(x, y).passable:
-                    room_entrances.add((x, y))
-
-                y = room_padded_area.bottom - 1
-                if map.get_tile(x, y).passable:
-                    room_entrances.add((x, y))
-
-            for y in xrange(room_padded_area.top, room_padded_area.bottom):
-                x = room_padded_area.left
-                if map.get_tile(x, y).passable:
-                    room_entrances.add((x, y))
-
-                x = room_padded_area.right - 1
-                if map.get_tile(x, y).passable:
-                    room_entrances.add((x, y))
-
-            room.entry_points = list(room_entrances)
+            room.init()
 
     def update(self):
         for room in self.rooms:
@@ -58,19 +31,27 @@ class Level:
         for being in self.beings:
             being.update()
 
+    def add_beings(self, beings):
+        for being in beings:
+            self.add_being(being)
+
     def add_being(self, being):
         self.beings.append(being)
         being.level = self
+        being.init()
+
+    def get_beings_owned_by(self, player):
+        return [being for being in self.beings if being.owner == player]
+
+    def get_beings_at(self, x, y):
+        pos = (x, y)
+        return [being for being in self.beings if being.pos == pos]
 
     def get_passable(self, x, y):
         map_pass = self.map.get_passable(x, y)
         if map_pass:
             return len(self.get_beings_at(x, y)) == 0
         return False
-
-    def get_beings_at(self, x, y):
-        pos = (x, y)
-        return [being for being in self.beings if being.pos == pos]
 
     def filter_passable(self, pos_list):
         return [pos for pos in pos_list if self.get_passable(*pos)]
@@ -144,6 +125,7 @@ def gen_level(size, seed=None):
     width, height = size
     gen_info = levelgen.generate(size, seed=seed)
 
+    # create map data
     map_data = gen_info.passability_map
     for y in xrange(height):
         for x in xrange(width):
@@ -153,22 +135,37 @@ def gen_level(size, seed=None):
                 map_data[y][x] = Tile(tile_type_wall)
     map = Map(map_data)
 
-    independent_player = player.Player((color.DARK_GRAY, color.GRAY, color.SILVER))
-    human_player = player.Player((color.DARK_RED, color.RED, color.LIGHT_RED), is_human=True)
-    players = [independent_player, human_player]
-
+    # create rooms
     rooms = []
     for room_area in gen_info.room_areas:
-        rooms.append(entity.Room(room_area, independent_player))
+        rooms.append(entity.Room(room_area))
 
-    first_room = rooms[0]
+    # for each room, create indie player who owns that room
+    players = []
+    for room in rooms:
+        indie_player = player.Player('Independents', (color.DARK_GRAY, color.GRAY, color.SILVER))
+        indie_player.add_room(room)
+        players.append(indie_player)
 
+    human_player = player.Player('You', (color.DARK_RED, color.RED, color.LIGHT_RED), is_human=True)
+    players.append(human_player)
+
+    level = Level(map, players, rooms)
+    level.init()
+
+    # add beings
     beings = []
+
+    first_room = level.rooms[0]
     beings.append(entity.Being(90, first_room.area.center, human_player))
     beings.append(entity.Being(90, first_room.area.move(-1, -1).center, human_player))
     beings.append(entity.Being(90, first_room.area.move(1, 1).center, human_player))
     beings.append(entity.Being(90, first_room.area.move(-1, 1).center, human_player))
     beings.append(entity.Being(90, first_room.area.move(1, -1).center, human_player))
 
-    level = Level(map, players, rooms, beings)
+    second_room = level.rooms[1]
+    beings.append(entity.Being(90, second_room.area.center, second_room.owner))
+
+    level.add_beings(beings)
+
     return level

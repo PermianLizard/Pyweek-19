@@ -1,4 +1,5 @@
 import comp
+import util
 
 
 class Entity(object):
@@ -16,6 +17,40 @@ class Room(Entity):
         self.area = area
         self.level = None
         self.entry_points = None
+        self.unique_entrance_count = 0
+
+    def init(self):
+        map = self.level.map
+
+        room_padded_area = self.padded_area
+        room_entrances = set()
+        for x in xrange(room_padded_area.left, room_padded_area.right):
+            y = room_padded_area.top
+            if map.get_tile(x, y).passable:
+                room_entrances.add((x, y))
+
+                y = room_padded_area.bottom - 1
+                if map.get_tile(x, y).passable:
+                    room_entrances.add((x, y))
+
+        for y in xrange(room_padded_area.top, room_padded_area.bottom):
+            x = room_padded_area.left
+            if map.get_tile(x, y).passable:
+                room_entrances.add((x, y))
+
+            x = room_padded_area.right - 1
+            if map.get_tile(x, y).passable:
+                room_entrances.add((x, y))
+
+        self.entry_points = list(room_entrances)
+
+        unique_entry_points = len(self.entry_points)
+        print unique_entry_points
+        #for pos in self.entry_points:
+        #    for other_pos in self.entry_points:
+        #        if pos == other_pos:
+        #            continue
+        #        if
 
     @property
     def padded_area(self):
@@ -28,6 +63,9 @@ class Being(Entity):
         self.pos = pos
         self.owner = owner
         self.action = comp.ActionComp(speed)
+
+    def init(self):
+        pass
 
     def get_state(self):
         return self.action.get_being_state()

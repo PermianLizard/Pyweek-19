@@ -73,7 +73,7 @@ class GameLayer(SceneLayer):
             click_tile = util.pixel_to_tile(pos, camera.view.topleft)
             if map.get_passable(click_tile[0], click_tile[1]):
 
-                for being in level.beings:
+                for being in level.get_beings_owned_by(level.human_player):
                     being_tile = being.pos
                     path = pathing.astar(being_tile, click_tile, level.map.passability_data)
 
