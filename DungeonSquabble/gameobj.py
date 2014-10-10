@@ -10,12 +10,13 @@ class Level:
         self.players = []
         self.rooms = []
         self.beings = []
+        self.human_player = None
 
         for player in players:
-            self.add_player(player)
+            self._add_player(player)
 
         for room in rooms:
-            self.add_room(room)
+            self._add_room(room)
 
         for being in beings:
             self.add_being(being)
@@ -57,25 +58,32 @@ class Level:
         for being in self.beings:
             being.update()
 
-    def add_player(self, player):
-        self.players.append(player)
-        player.level = self
-
-    def add_room(self, room):
-        self.rooms.append(room)
-        room.level = self
-
     def add_being(self, being):
         self.beings.append(being)
         being.level = self
+
+    def get_passable(self, x, y):
+        map_pass = self.map.get_passable(x, y)
+        if map_pass:
+            return len(self.get_beings_at(x, y)) == 0
+        return False
 
     def get_beings_at(self, x, y):
         pos = (x, y)
         return [being for being in self.beings if being.pos == pos]
 
     def filter_passable(self, pos_list):
-        map_passable_list = self.map.filter_passable(pos_list)
-        return [pos for pos in map_passable_list if len(self.get_beings_at(*pos)) == 0]
+        return [pos for pos in pos_list if self.get_passable(*pos)]
+
+    def _add_player(self, player):
+        self.players.append(player)
+        player.level = self
+        if player.is_human:
+            self.human_player = player
+
+    def _add_room(self, room):
+        self.rooms.append(room)
+        room.level = self
 
 
 class Map:
@@ -146,7 +154,7 @@ def gen_level(size, seed=None):
     map = Map(map_data)
 
     independent_player = player.Player((color.DARK_GRAY, color.GRAY, color.SILVER))
-    human_player = player.Player((color.DARK_RED, color.RED, color.LIGHT_RED))
+    human_player = player.Player((color.DARK_RED, color.RED, color.LIGHT_RED), is_human=True)
     players = [independent_player, human_player]
 
     rooms = []

@@ -32,6 +32,9 @@ class Being(Entity):
     def get_state(self):
         return self.action.get_being_state()
 
+    def can_make_requests_of(self, other):
+        return True
+
     def update(self):
         if self.action.delay <= 0:
             action = self.action.top_action()

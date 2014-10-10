@@ -204,7 +204,7 @@ class BspNode(object):
         return coll
 
 
-def generate(size, min_node_area=12, room_cull=0.4, room_connect_chance=0.75, seed=None):
+def generate(size, min_node_area=14, room_cull=0.4, room_connect_chance=0.75, seed=None):
     if seed is not None:
         random.seed(seed)
 

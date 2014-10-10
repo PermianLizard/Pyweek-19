@@ -50,9 +50,9 @@ def render_room(surf, room, camera):
 
     pygame.draw.rect(surf, room.owner.dark_color, (rect[0] - cx, rect[1] - cy, rect[2], rect[3]))
 
-    for x, y in room.entry_points:
-        rect = (x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
-        pygame.draw.rect(surf, color.BLUE, (rect[0] - cx, rect[1] - cy, rect[2], rect[3]))
+    #for x, y in room.entry_points:
+    #    rect = (x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
+    #    pygame.draw.rect(surf, color.BLUE, (rect[0] - cx, rect[1] - cy, rect[2], rect[3]))
 
 
 def render_level_map(surf, level, camera=None):

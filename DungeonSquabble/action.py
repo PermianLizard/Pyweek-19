@@ -1,12 +1,13 @@
 import operator
 import util
 
+
 class Action(object):
     def __init__(self, name):
         self.name = name
         self.complete = False
 
-    def __call__(self, being):
+    def __call__(self, being, initiator=None):
         pass
 
 
@@ -19,7 +20,7 @@ class MoveAction(Action):
         self.blocked_count = 0
 
 
-    def __call__(self, being):
+    def __call__(self, being, initiator=None):
         path = self.path
         if path:
             next_pos = path[0]
@@ -31,7 +32,8 @@ class MoveAction(Action):
                     self.blocked_count += 1
                     for blocking_being in beings_blocking_me:
                         if blocking_being.get_state() != MoveAction.name:
-                            blocking_being.action.push_action(MakeWayAction(being))
+                            if being.can_make_requests_of(blocking_being):
+                                blocking_being.action.push_action(MakeWayAction(being))
                 else:
                     being.pos = next_pos
                     self.blocked_count = 0
@@ -55,7 +57,7 @@ class MakeWayAction(Action):
         self.for_pos = for_being.pos
         self.blocked_count = 0
 
-    def __call__(self, being):
+    def __call__(self, being, initiator=None):
         for_pos = self.for_pos
         if util.tiles_adjacent(being.pos, for_pos):
             possible_move_to = util.get_adjacent_tiles(*being.pos)
