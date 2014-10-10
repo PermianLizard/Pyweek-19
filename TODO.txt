@@ -7,7 +7,6 @@ fov
     per player
         perhaps only human players
 unit selection
-unit speed/turn to act
 unit collision stuffs (only 1 unit per tile)
 unit behavior
     feeding

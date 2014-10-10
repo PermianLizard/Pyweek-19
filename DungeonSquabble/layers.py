@@ -69,19 +69,19 @@ class GameLayer(SceneLayer):
 
         camera = self.camera
 
-        being = level.beings[0]
-
-        being_tile = being.pos
-        click_tile = util.pixel_to_tile(pos, camera.view.topleft) #camera.view.topleft
-
         if button == MOUSE_BUTTON_RIGHT:
+            click_tile = util.pixel_to_tile(pos, camera.view.topleft)
             if map.get_passable(click_tile[0], click_tile[1]):
-                path = pathing.astar(being_tile, click_tile, level.map.passability_data)
 
-                move = action.MoveAction(path)
-                being.action.swap_action(move)
+                for being in level.beings:
+                    being_tile = being.pos
+                    path = pathing.astar(being_tile, click_tile, level.map.passability_data)
 
-            return True
+                    move = action.MoveAction(path)
+                    being.action.clear()
+                    being.action.swap_action(move)
+
+                return True
 
         return False
 

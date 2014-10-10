@@ -1,4 +1,4 @@
-from core import  color
+from core import color
 import levelgen
 import entity
 import player
@@ -69,6 +69,14 @@ class Level:
         self.beings.append(being)
         being.level = self
 
+    def get_beings_at(self, x, y):
+        pos = (x, y)
+        return [being for being in self.beings if being.pos == pos]
+
+    def filter_passable(self, pos_list):
+        map_passable_list = self.map.filter_passable(pos_list)
+        return [pos for pos in map_passable_list if len(self.get_beings_at(*pos)) == 0]
+
 
 class Map:
     def __init__(self, data):
@@ -85,6 +93,9 @@ class Map:
     def console_print(self):
         for row in self.data:
             print [str(tile) for tile in row]
+
+    def filter_passable(self, pos_list):
+        return (pos for pos in pos_list if self.get_passable(*pos))
 
     def _gen_passability_data(self):
         passability_data = []
@@ -146,6 +157,10 @@ def gen_level(size, seed=None):
 
     beings = []
     beings.append(entity.Being(90, first_room.area.center, human_player))
+    beings.append(entity.Being(90, first_room.area.move(-1, -1).center, human_player))
+    beings.append(entity.Being(90, first_room.area.move(1, 1).center, human_player))
+    beings.append(entity.Being(90, first_room.area.move(-1, 1).center, human_player))
+    beings.append(entity.Being(90, first_room.area.move(1, -1).center, human_player))
 
     level = Level(map, players, rooms, beings)
     return level

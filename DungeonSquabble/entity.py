@@ -29,6 +29,9 @@ class Being(Entity):
         self.owner = owner
         self.action = comp.ActionComp(speed)
 
+    def get_state(self):
+        return self.action.get_being_state()
+
     def update(self):
         if self.action.delay <= 0:
             action = self.action.top_action()

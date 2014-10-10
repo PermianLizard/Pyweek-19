@@ -4,6 +4,12 @@ class ActionComp:
         self.action_stack = []
         self.delay = 0
 
+    def get_being_state(self):
+        top = self.top_action()
+        if top:
+            return top.name
+        return None
+
     def top_action(self):
         action_stack = self.action_stack
         if action_stack:
@@ -23,3 +29,6 @@ class ActionComp:
         action_stack = self.action_stack
         if action_stack:
             action_stack.pop()
+
+    def clear(self):
+        del self.action_stack[:]
