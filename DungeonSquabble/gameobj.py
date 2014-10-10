@@ -121,9 +121,9 @@ tile_type_wall = TileType('wall', '#', False)
 tile_type_floor = TileType('floor', ' ', True)
 
 
-def gen_level(size):
+def gen_level(size, seed=None):
     width, height = size
-    gen_info = levelgen.generate(size)
+    gen_info = levelgen.generate(size, seed=seed)
 
     map_data = gen_info.passability_map
     for y in xrange(height):
@@ -145,7 +145,7 @@ def gen_level(size):
     first_room = rooms[0]
 
     beings = []
-    beings.append(entity.Being(first_room.area.center, human_player))
+    beings.append(entity.Being(90, first_room.area.center, human_player))
 
     level = Level(map, players, rooms, beings)
     return level

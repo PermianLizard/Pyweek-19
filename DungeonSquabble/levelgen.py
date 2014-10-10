@@ -204,7 +204,10 @@ class BspNode(object):
         return coll
 
 
-def generate(size, min_node_area=12, room_cull=0.4, room_connect_chance=0.75):
+def generate(size, min_node_area=12, room_cull=0.4, room_connect_chance=0.75, seed=None):
+    if seed is not None:
+        random.seed(seed)
+
     root = BspNode(pygame.Rect((0, 0) + size))
     root.grow(min_node_area)
 

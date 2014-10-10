@@ -4,8 +4,18 @@ TODO
 ====
 
 fov
-being selection
-concept of players
-    player colors
-unit movement
+    per player
+        perhaps only human players
+unit selection
 unit speed/turn to act
+unit collision stuffs (only 1 unit per tile)
+unit behavior
+    feeding
+    sleeping/healing
+
+rooms
+    room improvements
+        lairs
+        resources
+
+

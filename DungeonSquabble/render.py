@@ -67,5 +67,5 @@ def render_map_tile(surf, level, tile):
 
     x, y = tile
 
-    if (map.get_tile(x, y).type == gameobj.tile_type_wall):
+    if map.get_tile(x, y).type == gameobj.tile_type_wall:
         pygame.draw.rect(surf, color.GRAY, (x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE - 1, TILE_SIZE - 1))

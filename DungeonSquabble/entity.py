@@ -1,3 +1,6 @@
+import comp
+
+
 class Entity(object):
     def __init__(self, owner=None):
         self.level = None
@@ -20,36 +23,19 @@ class Room(Entity):
 
 
 class Being(Entity):
-    def __init__(self, pos=(0, 0), owner=None):
+    def __init__(self, speed, pos=(0, 0), owner=None):
         super(Being, self).__init__(owner)
         self.pos = pos
         self.owner = owner
-        self.action_stack = []
-
-    def top_action(self):
-        action_stack = self.action_stack
-        if action_stack:
-            return action_stack[-1]
-        return None
-
-    def push_action(self, action):
-        self.action_stack.append(action)
-
-    def swap_action(self, action):
-        action_stack = self.action_stack
-        if action_stack:
-            action_stack.pop()
-        action_stack.append(action)
-
-    def pop_action(self):
-        action_stack = self.action_stack
-        if action_stack:
-            action_stack.pop()
+        self.action = comp.ActionComp(speed)
 
     def update(self):
-        action = self.top_action()
-        if action:
-            action(self)
-
-            if action.complete:
-                self.pop_action()
+        if self.action.delay <= 0:
+            action = self.action.top_action()
+            if action:
+                action(self)
+                if action.complete:
+                    self.action.pop_action()
+            self.action.delay = 100 // self.action.speed
+        else:
+            self.action.delay -= 1

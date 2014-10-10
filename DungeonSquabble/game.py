@@ -27,8 +27,17 @@ class GameInstanceState(object):
 instance = None
 
 
+level_configs = (
+    ((55, 55), 12345),
+)
+
 def new():
-    levels = [gameobj.gen_level((40, 40))]
+    levels = []
+    for conf in level_configs:
+        print conf[0], conf[1]
+        levels.append(gameobj.gen_level(conf[0], conf[1]))
+
+    #levels = [gameobj.gen_level((40, 40))]
 
     state = GameInstanceState(levels)
 

@@ -79,7 +79,7 @@ class GameLayer(SceneLayer):
                 path = pathing.astar(being_tile, click_tile, level.map.passability_data)
 
                 move = action.MoveAction(path)
-                being.swap_action(move)
+                being.action.swap_action(move)
 
             return True
 
