@@ -11,7 +11,7 @@ class priorityDictionary(dict):
 
     def smallest(self):
         if len(self) == 0:
-            raise IndexError, "smallest of empty priorityDictionary"
+            raise IndexError("smallest of empty priorityDictionary")
         heap = self.__heap
         while heap[0][1] not in self or self[heap[0][1]] != heap[0][0]:
             lastItem = heap.pop()
@@ -40,7 +40,7 @@ class priorityDictionary(dict):
         dict.__setitem__(self,key,val)
         heap = self.__heap
         if len(heap) > 2 * len(self):
-            self.__heap = [(v,k) for k,v in self.iteritems()]
+            self.__heap = [(v,k) for k,v in self.items()]
             self.__heap.sort()  # builtin sort likely faster than O(n) heapify
         else:
             newPair = (val,key)

@@ -1,7 +1,7 @@
 from core import color
-import levelgen
-import entity
-import player
+from DungeonSquabble import levelgen
+from DungeonSquabble import entity
+from DungeonSquabble import player
 
 
 class Level:
@@ -81,7 +81,7 @@ class Map:
 
     def console_print(self):
         for row in self.data:
-            print [str(tile) for tile in row]
+            print([str(tile) for tile in row])
 
     def filter_passable(self, pos_list):
         return (pos for pos in pos_list if self.get_passable(*pos))
@@ -89,9 +89,9 @@ class Map:
     def _gen_passability_data(self):
         passability_data = []
         data = self.data
-        for y in xrange(len(data)):
+        for y in range(len(data)):
             row = []
-            for x in xrange(len(data[y])):
+            for x in range(len(data[y])):
                 row.append(data[y][x].passable)
             passability_data.append(row)
 
@@ -127,8 +127,8 @@ def gen_level(size, seed=None):
 
     # create map data
     map_data = gen_info.passability_map
-    for y in xrange(height):
-        for x in xrange(width):
+    for y in range(height):
+        for x in range(width):
             if map_data[y][x]:
                 map_data[y][x] = Tile(tile_type_floor)
             else:

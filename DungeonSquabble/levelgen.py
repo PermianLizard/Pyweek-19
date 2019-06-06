@@ -1,6 +1,6 @@
 import random
 import pygame
-import util
+from DungeonSquabble import util
 
 
 class GenInfo:
@@ -20,7 +20,7 @@ class BspNode(object):
 
     @property
     def size(self):
-        return self.area[2:]
+        return (self.area[-2], self.area[-1])
 
     def connect(self, other, path):
         self.connections[other] = path
@@ -148,8 +148,8 @@ class BspNode(object):
 
         for leaf in leaves:
             to_remove = set()
-            for other, path in leaf.connections.iteritems():
-                for owner_leaf, padded_room in leaf_padded_rooms.iteritems():
+            for other, path in leaf.connections.items():
+                for owner_leaf, padded_room in leaf_padded_rooms.items():
                     if owner_leaf is leaf or owner_leaf is other:
                         continue
 
@@ -178,7 +178,7 @@ class BspNode(object):
         if self.right_child is not None:
             self.right_child.imprint_connections(data)
 
-        for other, path in self.connections.iteritems():
+        for other, path in self.connections.items():
             imprint_path(data, path, True)
 
     def collect_leaves(self, coll=None):
@@ -243,8 +243,8 @@ def imprint_path(data, path, value):
 
 
 def imprint_matrix(data, area, value):
-    for y in xrange(area.top, area.bottom):
-        for x in xrange(area.left, area.right):
+    for y in range(area.top, area.bottom):
+        for x in range(area.left, area.right):
             data[y][x] = value
 
 
@@ -307,7 +307,7 @@ def get_horiz_path(x1, x2, y):
     else:
         return path
 
-    for x in xrange(x_start, x_end):
+    for x in range(x_start, x_end):
         path.append((x, y))
 
     return path
@@ -324,7 +324,7 @@ def get_vert_path(y1, y2, x):
     else:
         return path
 
-    for y in xrange(y_start, y_end):
+    for y in range(y_start, y_end):
         path.append((x, y))
 
     return path
@@ -332,9 +332,9 @@ def get_vert_path(y1, y2, x):
 
 def create_matrix(size, value=False):
     data = []
-    for y in xrange(size[1]):
+    for y in range(size[1]):
         row = []
-        for x in xrange(size[0]):
+        for x in range(size[0]):
             row.append(value)
         data.append(row)
     return data

@@ -1,8 +1,8 @@
 from core import control
 
-from consts import TITLE, WINDOW_SIZE, DISPLAY_SIZE, FPS
-from scenes import GameScene
-import resources
+from DungeonSquabble.consts import TITLE, WINDOW_SIZE, DISPLAY_SIZE, FPS
+from DungeonSquabble.scenes import GameScene
+from DungeonSquabble import resources
 
 
 def on_init():

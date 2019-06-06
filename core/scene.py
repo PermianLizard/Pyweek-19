@@ -1,4 +1,4 @@
-import color
+from core import color
 
 
 class SceneLayer(object):
@@ -48,22 +48,22 @@ class Scene(object):
         self.bg_color = bg_color
 
     def enter(self, **kwargs):
-        print '%s: enter' % self.__class__.__name__
+        print('%s: enter' % self.__class__.__name__)
         for layer in self.layers:
             layer.enter(**kwargs)
 
     def exit(self):
-        print '%s: exit' % self.__class__.__name__
+        print('%s: exit' % self.__class__.__name__)
         for layer in self.layers:
             layer.exit()
 
     def pause(self):
-        print '%s: pause' % self.__class__.__name__
+        print('%s: pause' % self.__class__.__name__)
         for layer in self.layers:
             layer.pause()
 
     def resume(self, **kwargs):
-        print '%s: resume' % self.__class__.__name__
+        print('%s: resume' % self.__class__.__name__)
         for layer in self.layers:
             layer.resume(**kwargs)
 

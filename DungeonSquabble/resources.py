@@ -2,8 +2,8 @@ import pygame
 import os
 
 from core import resource
-from consts import TILE_SIZE
-import data
+from DungeonSquabble.consts import TILE_SIZE
+from DungeonSquabble import data
 
 def load_image(filename):
     img = pygame.image.load(data.filepath(os.path.join('images', filename)))

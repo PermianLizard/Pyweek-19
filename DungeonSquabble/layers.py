@@ -4,16 +4,16 @@ from core import color
 from core import pathing
 from core.scene import SceneLayer
 from core.camera import Camera
-from consts import MOUSE_BUTTON_RIGHT
-import game
-import resources
-import text
-import render
-import util
-import action
+from DungeonSquabble.consts import MOUSE_BUTTON_RIGHT
+from DungeonSquabble import game
+from DungeonSquabble import resources
+from DungeonSquabble import text
+from DungeonSquabble import render
+from DungeonSquabble import util
+from DungeonSquabble import action
 
-from consts import DISPLAY_SIZE, TILE_SIZE, HALF_TILE_SIZE, DEBUG
-from resources import font__press_start_normal
+from DungeonSquabble.consts import DISPLAY_SIZE, TILE_SIZE, HALF_TILE_SIZE, DEBUG
+from DungeonSquabble.resources import font__press_start_normal
 
 
 class GameLayer(SceneLayer):

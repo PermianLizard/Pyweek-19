@@ -72,20 +72,20 @@ class Map:
 
     def show(self):
         data = self.data
-        for y in xrange(len(data)):
-            for x in xrange(len(data[0])):
+        for y in range(len(data)):
+            for x in range(len(data[0])):
                 if data[y][x]:
-                    print '.',
+                    print('.',)
                 else:
-                    print '#',
-            print ''
+                    print('#',)
+            print('')
 
 
 def create_matrix(size, value=False):
     data = []
-    for y in xrange(size[1]):
+    for y in range(size[1]):
         row = []
-        for x in xrange(size[0]):
+        for x in range(size[0]):
             row.append(value)
         data.append(row)
     return data
@@ -104,5 +104,5 @@ if __name__ == '__main__':
     do_fov(5, 5, 6, data, sdata)
 
     Map(data).show()
-    print '---'
+    print('---')
     Map(sdata).show()

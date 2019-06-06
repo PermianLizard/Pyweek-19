@@ -1,6 +1,6 @@
 import pygame
 from core import color
-import resources
+from DungeonSquabble import resources
 
 halign_left = 'left'
 halign_center = 'center'

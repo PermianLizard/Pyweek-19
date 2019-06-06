@@ -1,3 +1,3 @@
 if __name__ == "__main__":
-    import main
+    from DungeonSquabble import main
     main.main()

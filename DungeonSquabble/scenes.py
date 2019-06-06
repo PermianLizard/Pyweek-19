@@ -1,8 +1,8 @@
 import pygame
 from core import director
 from core.scene import Scene
-import game
-import layers
+from DungeonSquabble import game
+from DungeonSquabble import layers
 
 
 class GameScene(Scene):

@@ -1,4 +1,4 @@
-import gameobj
+from DungeonSquabble import gameobj
 
 
 class GameInstance(object):
@@ -34,7 +34,7 @@ level_configs = (
 def new():
     levels = []
     for conf in level_configs:
-        print conf[0], conf[1]
+        print(conf[0], conf[1])
         levels.append(gameobj.gen_level(conf[0], conf[1]))
 
     #levels = [gameobj.gen_level((40, 40))]

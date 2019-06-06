@@ -1,9 +1,9 @@
 import pygame
 from core import color
-from consts import DISPLAY_SIZE, TILE_SIZE, HALF_TILE_SIZE
-import resources
-import game
-import gameobj
+from DungeonSquabble.consts import DISPLAY_SIZE, TILE_SIZE, HALF_TILE_SIZE
+from DungeonSquabble import resources
+from DungeonSquabble import game
+from DungeonSquabble import gameobj
 
 
 def create_level_surf(level):
@@ -57,8 +57,8 @@ def render_room(surf, room, camera):
 
 def render_level_map(surf, level, camera=None):
     map = level.map
-    for y in xrange(map.size[1]):
-        for x in xrange(map.size[0]):
+    for y in range(map.size[1]):
+        for x in range(map.size[0]):
             render_map_tile(surf, level, (x, y))
 
 

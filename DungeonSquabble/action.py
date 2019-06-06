@@ -1,5 +1,5 @@
 import operator
-import util
+from DungeonSquabble import util
 
 
 class Action(object):

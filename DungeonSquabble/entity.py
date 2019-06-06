@@ -1,5 +1,5 @@
-import comp
-import util
+from DungeonSquabble import comp
+from DungeonSquabble import util
 
 
 class Entity(object):
@@ -24,7 +24,7 @@ class Room(Entity):
 
         room_padded_area = self.padded_area
         room_entrances = set()
-        for x in xrange(room_padded_area.left, room_padded_area.right):
+        for x in range(room_padded_area.left, room_padded_area.right):
             y = room_padded_area.top
             if map.get_tile(x, y).passable:
                 room_entrances.add((x, y))
@@ -33,7 +33,7 @@ class Room(Entity):
                 if map.get_tile(x, y).passable:
                     room_entrances.add((x, y))
 
-        for y in xrange(room_padded_area.top, room_padded_area.bottom):
+        for y in range(room_padded_area.top, room_padded_area.bottom):
             x = room_padded_area.left
             if map.get_tile(x, y).passable:
                 room_entrances.add((x, y))
@@ -45,7 +45,7 @@ class Room(Entity):
         self.entry_points = list(room_entrances)
 
         unique_entry_points = len(self.entry_points)
-        print unique_entry_points
+        print(unique_entry_points)
         #for pos in self.entry_points:
         #    for other_pos in self.entry_points:
         #        if pos == other_pos:

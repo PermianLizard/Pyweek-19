@@ -1,5 +1,5 @@
 import math
-import priodict
+from core import priodict
 
 
 def astar(start, goal, data):
@@ -51,8 +51,8 @@ def neighbor_nodes(current, data):
 
     height, width = len(data), len(data[0])
 
-    for y in xrange(current[1] - 1, current[1] + 2):
-        for x in xrange(current[0] - 1, current[0] + 2):
+    for y in range(current[1] - 1, current[1] + 2):
+        for x in range(current[0] - 1, current[0] + 2):
             if not (x == current[0] and y == current[1]):
                 if x >= 0 and y >= 0 and x < width and y < height:
                     if data[y][x]:
